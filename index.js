@@ -1,7 +1,7 @@
 if (process.env.NODE_ENV != "production") {
     require('dotenv').config()
 }
-console.log(process.env.SECRET)
+// console.log(process.env.SECRET)
 
 const express = require("express");
 const app = express();
@@ -21,7 +21,7 @@ const passport = require("passport");
 const localStrategy = require("passport-local");
 const User = require("./models/user.js")
 
-// const mongo_url = 'mongodb://127.0.0.1:27017/wanderlust';
+// const dbURL = 'mongodb://127.0.0.1:27017/wanderlust';
 const dbURL = process.env.ATLAS_URL;
 
 const store = MongoStore.create({
@@ -65,7 +65,8 @@ passport.deserializeUser(User.deserializeUser())
 
 const listingsRouter = require("./routes/listing.js")
 const reviewsRouter = require("./routes/review.js")
-const userRouter = require("./routes/user.js")
+const userRouter = require("./routes/user.js");
+const Listing = require('./models/listing.js');
 
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "/views"))
@@ -88,12 +89,14 @@ app.listen(8080, () => {
     console.log("App Listening on port : ", 8080);
 })
 
-// app.get("/", (req, res) => {
-//     res.send("App runung....")
-// })
-
-app.get("/test", (req,res)=>{
-    res.render("index/test.ejs")
+app.post("/tags/:id", async (req,res)=>{
+    // console.log(req.params.id)
+    let tag = req.params.id;
+    console.log(tag)
+    let allListing = await Listing.find({tags : tag})
+    console.log(allListing)
+    res.render("tags", {allListing})
+    // res.send("j")
 })
 
 app.use("/listings", listingsRouter)

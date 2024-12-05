@@ -16,7 +16,7 @@ const upload = multer({ storage })
 const validateListing = (req, res, next) => {
     let { error } = ListingSchema.validate(req.body)
     if (error) {
-        let errMsg = error.details.map((el) = el.message).join(",")
+        let errMsg = error.details.map((el) => el.message).join(",")
         throw new ExpressError(400, errMsg)
     } else {
         next()

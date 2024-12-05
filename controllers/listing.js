@@ -51,6 +51,7 @@ module.exports.createListing = async (req, res, next) => {
 
     newListing.geometry = locationCODE;
     await newListing.save();
+    console.log(req.body)
     req.flash("success", "New Listing is created!")
     res.redirect("/listings")
 }
