@@ -137,6 +137,10 @@
                 </div>
             </div>
         </div>
+        <%if(allListing.length == 0){%>
+            <br><br>
+            <p>Data Not Found <a href="/listings">Views ALL Listing</a></p>
+        <%}%>
         <div class="row row-cols-ig-3 row-cols-md-3 row-cols-sm-1 mt-3">
             <%for(let listing of allListing){%>
             <a href="/listings/<%=listing._id%>" class="listing-link">

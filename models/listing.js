@@ -49,6 +49,12 @@ listingSchema.post("findOneAndDelete", async (listing) => {
     }
 })
 
+listingSchema.index({
+    title: "text",
+    // description: "text",
+    // tags: "text"
+});
+
 const Listing = mongoose.model("Listing", listingSchema);
 
 module.exports = Listing;

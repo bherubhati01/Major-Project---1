@@ -65,8 +65,10 @@ passport.deserializeUser(User.deserializeUser())
 
 const listingsRouter = require("./routes/listing.js")
 const reviewsRouter = require("./routes/review.js")
+const searchRouter = require("./routes/search.js")
 const userRouter = require("./routes/user.js");
 const Listing = require('./models/listing.js');
+const { tags } = require('./controllers/search.js');
 
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "/views"))
@@ -89,15 +91,7 @@ app.listen(8080, () => {
     console.log("App Listening on port : ", 8080);
 })
 
-app.post("/tags/:id", async (req,res)=>{
-    // console.log(req.params.id)
-    let tag = req.params.id;
-    console.log(tag)
-    let allListing = await Listing.find({tags : tag})
-    console.log(allListing)
-    res.render("tags", {allListing})
-    // res.send("j")
-})
+app.use("/", searchRouter )
 
 app.use("/listings", listingsRouter)
 app.use("/listings/:_id/reviews", reviewsRouter)
